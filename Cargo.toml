@@ -1,8 +1,29 @@
 [package]
 name = "libferroxid-esolangs"
 version = "0.1.0"
+authors = ["András Németh <sunarch@protonmail.com>"]
 edition = "2021"
+description = "Implementations of esoteric programming languages"
+documentation = "https://docs.rs/libferroxid-esolangs"
+readme = "README.md"
+homepage = "https://codeberg.org/sunarch/libferroxid-esolangs"
+repository = "https://codeberg.org/sunarch/libferroxid-esolangs"
+license = "MPL-2.0"
+keywords = [
+    "libferroxid",
+    "esolang", "esolangs",
+]
+categories = [
+    "command-line-utilities",
+    "compilers",
+    "development-tools",
+]
+exclude = [".idea/"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+name = "libferroxid_esolangs"
+path = "src/lib.rs"
 
 [dependencies]
