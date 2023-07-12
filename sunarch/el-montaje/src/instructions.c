@@ -1,7 +1,10 @@
-// This Source Code Form is subject to the terms of the Mozilla Public
-// License, v. 2.0. If a copy of the MPL was not distributed with this
-// file, You can obtain one at https://mozilla.org/MPL/2.0/.
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
 
+/*
 pub struct Instruction {
     opcode: u32,
     syntax_short: &'static str,
@@ -65,7 +68,7 @@ impl Instruction {
         };
     }
 }
-
+*/
 
 /*
 
