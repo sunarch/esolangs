@@ -1,5 +1,3 @@
-# libferroxid-esolangs
+# esolangs
 
-- [GridRun](gridrun/index.md)
-- [EL comodo](el-comodo/index.md)
-- [EL montaje](el-montaje/index.md)
+- by [sunarch](sunarch/index.md)

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/libferroxid-esolangs.iml" filepath="$PROJECT_DIR$/.idea/libferroxid-esolangs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/esolangs.iml" filepath="$PROJECT_DIR$/.idea/esolangs.iml" />
     </modules>
   </component>
 </project>
