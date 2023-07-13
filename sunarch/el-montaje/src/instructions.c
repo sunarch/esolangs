@@ -4,71 +4,64 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-/*
-pub struct Instruction {
-    opcode: u32,
-    syntax_short: &'static str,
-    syntax_long: &'static str,
-    operands: u8,
-}
+#include <stdint.h>
 
-impl Instruction {
-    pub fn no_operation() -> Self {
-        // No operation
+#include "instructions.h"
 
-        return Instruction {
-            opcode: 0x0,
-            syntax_short: "NOP",
-            syntax_long: "no-operation",
-            operands: 0,
-        };
-    }
 
-    pub fn add() -> Self {
-        // Addition
+struct Instruction
+{
+        uint16_t opcode;
+        const char *syntax_short;
+        const char *syntax_long;
+        uint8_t operands;
+};
 
-        return Instruction {
-            opcode: 0x0,
-            syntax_short: "ADD",
-            syntax_long: "add",
-            operands: 2,
-        };
-    }
 
-    pub fn subtract() -> Self {
-        // Subtraction
+// No operation
+const struct Instruction no_operation = {
+        .opcode = 0x0,
+        .syntax_short = "NOP",
+        .syntax_long = "no-operation",
+        .operands = 0
+};
 
-        return Instruction {
-            opcode: 0x0,
-            syntax_short: "SUB",
-            syntax_long: "subtract",
-            operands: 2,
-        };
-    }
 
-    pub fn multiply() -> Self {
-        // Multiply
+// Addition
+const struct Instruction add = {
+        .opcode = 0x1,
+        .syntax_short = "ADD",
+        .syntax_long = "add",
+        .operands = 2
+};
 
-        return Instruction {
-            opcode: 0x0,
-            syntax_short: "MUL",
-            syntax_long: "multiply",
-            operands: 2,
-        };
-    }
 
-    pub fn divide() -> Self {
-        // Divide
+// Subtraction
+const struct Instruction subtract = {
+        .opcode = 0x2,
+        .syntax_short = "SUB",
+        .syntax_long = "subtract",
+        .operands = 2
+};
 
-        return Instruction {
-            opcode: 0x0,
-            syntax_short: "DIV",
-            syntax_long: "divide",
-            operands: 2,
-        };
-    }
-}
-*/
+
+// Multiply
+const struct Instruction multiply = {
+        .opcode = 0x3,
+        .syntax_short = "MUL",
+        .syntax_long = "multiply",
+        .operands = 2
+};
+
+
+// Divide
+const struct Instruction divide = {
+        .opcode = 0x4,
+        .syntax_short = "DIV",
+        .syntax_long = "divide",
+        .operands = 2
+};
+
 
 /*
 

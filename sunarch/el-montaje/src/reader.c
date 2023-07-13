@@ -4,11 +4,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-/*
-;   comments (line end)
-$   registers
-@   addresses
-*   pointers / variables
-#   labels
-~   strings
-*/
+#include "reader.h"
+
+
+const char PREFIX_COMMENT  = ';';  // comments (line end)
+const char PREFIX_REGISTER = '$';  // registers
+const char PREFIX_ADDRESS  = '@';  // addresses
+const char PREFIX_POINTER  = '*';  // pointers / variables
+const char PREFIX_LABEL    = '#';  // labels
+const char PREFIX_STRING   = '~';  // strings

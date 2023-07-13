@@ -4,60 +4,80 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-/*
-use std::num::ParseIntError;
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "common.h"
+#include "tools-number.h"
+#include "util-math.h"
 
 
-pub fn int_from_string(number_string: &str) -> Result<i64, &'static str> {
+uint64_t int_from_string(char *number_string)
+{
+        char scan_format_oct[] = "..[^0123456789]%o";
+        char scan_format_dec[] = "..[^0123456789]%d";
+        char scan_format_hex[] = "..[^0123456789]%x";
+        char *scan_format = scan_format_dec;
 
-    let length: usize = number_string.len();
-    let number_indetifier:&str = &number_string[0..2];
-    let number_identified_value:&str = &number_string[2..length];
+        if (number_string[0] == '0') {
+                switch (number_string[1]) {
+                        case 'o':
+                                scan_format = scan_format_oct;
+                                break;
+                        case 'x':
+                                scan_format = scan_format_hex;
+                                break;
+                        default:
+                                printf("Number format not recognized: %s", number_string);
+                                exit(RETURN_CODE_ERROR);
+                }
+        }
 
-    let converted: Result<i64, ParseIntError> = match number_indetifier {
-        "0o" => i64::from_str_radix(number_identified_value, 8),
-        "0x" => i64::from_str_radix(number_identified_value, 16),
-        _ => i64::from_str_radix(number_string, 10),
-    };
+        uint32_t number_value;
+        if (1 != sscanf(number_string, scan_format, &number_value)) {
+                printf("Badly formatted size number: '%s'", number_string);
+                exit(RETURN_CODE_ERROR);
+        }
 
-    return match converted {
-        Err(_) => Err("String to int conversion failed"),
-        Ok(value) => Ok(value),
-    };
+        return number_value;
 }
 
 
-fn modifier_to_factor(factor: &str) -> Result<u32, String> {
-
-    return match factor {
-        "K" => Ok(1),
-        "M" => Ok(2),
-        "G" => Ok(3),
-        &_ => Err(format!("Illegal size modifier '{}' (Valid: K/M/G)", factor)),
-    };
+static uint32_t modifier_to_factor(char factor)
+{
+        switch (factor) {
+                case 'K':
+                        return 1;
+                        break;
+                case 'M':
+                        return 2;
+                        break;
+                case 'G':
+                        return 3;
+                        break;
+                default:
+                        printf("Illegal size modifier '%c' (Valid: K/M/G)", factor);
+                        exit(RETURN_CODE_ERROR);
+        }
 }
 
-pub fn int_from_size(size_string: &str) -> Result<u32, String> {
 
-    let length: usize = size_string.len();
-    let count: &str = &size_string[0..length-1];
-    let modifier: &str = &size_string[length-1..length];
+uint32_t int_from_size(char *size_string)
+{
+        uint32_t count;
+        if (1 != sscanf(size_string, "[^0123456789]%u.", &count)) {
+                printf("Badly formatted size number: '%s'", size_string);
+                exit(RETURN_CODE_ERROR);
+        }
+        char modifier_char = size_string[-1];
+        uint32_t modifier = modifier_to_factor(modifier_char);
 
-    let count_value: u32 = match u32::from_str_radix(count, 10) {
-        Err(_) => {return Err(format!("Badly formatted size number: '{}'", count))},
-        Ok(value) => {value},
-    };
 
-    let modifier_value: u32 = match modifier_to_factor(modifier) {
-        Err(message) => {return Err(message)},
-        Ok(value) => {value},
-    };
+        uint8_t modifier_base = 2;
+        uint32_t modifier_exponent = modifier * 10;
+        uint32_t modifier_powered = pow_uint32(modifier_base, modifier_exponent);
+        uint32_t total = count * modifier_powered;
 
-    let modifier_base: u32 = 2;
-    let modifier_power: u32 = modifier_value * 10;
-    let modifier_powered: u32 = modifier_base.pow(modifier_power);
-    let total: u32 = count_value * modifier_powered;
-
-    return Ok(total);
+        return total;
 }
-*/

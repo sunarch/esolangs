@@ -10,6 +10,10 @@ EXEC_NAME_STATIC = gridrun-static
 EXEC_NAME_DEBUG = gridrun-debug
 EXEC_NAME_DEBUG_STATIC = gridrun-debug-static
 
+# extra flags ##################################################################
+
+PROJECT_FLAGS =
+
 # includes #####################################################################
 
 include ../../libs/makefile-common.mk

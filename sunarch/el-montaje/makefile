@@ -10,6 +10,10 @@ EXEC_NAME_STATIC = el-montaje-static
 EXEC_NAME_DEBUG = el-montaje-debug
 EXEC_NAME_DEBUG_STATIC = el-montaje-debug-static
 
+# extra flags ##################################################################
+
+PROJECT_FLAGS =
+
 # includes #####################################################################
 
 include ../../libs/makefile-common.mk

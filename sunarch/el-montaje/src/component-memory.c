@@ -4,79 +4,83 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-/*
-use std::collections::HashMap;
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-use crate::esolangs::el_montaje::tools::number;
+#include "common.h"
+#include "component-memory.h"
+#include "reader.h"
+#include "tools-number.h"
 
 
-pub struct Memory {
-    _size: u32,
-    _layout: HashMap<u32, i64>,
+#define  MEMORY_SIZE  UINT8_MAX
+
+
+struct Memory
+{
+        uint8_t size;
+        int64_t cells[MEMORY_SIZE];
+};
+
+
+static struct Memory memory = {
+        .size = MEMORY_SIZE,
+        .cells = {0}
+};
+
+uint8_t memory_get_address_last(void)
+{
+        return MEMORY_SIZE - 1;
 }
 
-impl Memory {
-    pub fn new(size: String) -> Self {
 
-        return Memory {
-            _size: number::int_from_size(size.as_str()).expect("Checked at argument"),
-            _layout: HashMap::new(),
-        };
-    }
+static uint8_t memory_translate_address(char *address)
+{
+        unsigned int len = (unsigned int) strlen(address);
 
-    pub fn last_address(&self) -> u32 {
-        return self._size;
-    }
-
-    pub fn get(&self, address: &str) -> Result<Option<i64>, &'static str> {
-
-        let real_address = match Self::_translate_address(address) {
-            Err(message) => {return Err(message)},
-            Ok(value) => value,
-        };
-
-        if real_address > self._size {
-            return Err("Attempted read on uninitialized memory");
+        if (len < 2) {
+                printf("Memory addresses too short");
+                exit(RETURN_CODE_ERROR);
         }
 
-        return match self._layout.get(&real_address) {
-            None => Ok(None),
-            Some(value) => Ok(Some(value.to_owned())),
-        }
-    }
-
-    pub fn set(&mut self, address: &str, value: i64) -> Result<(), &'static str> {
-
-        let real_address = match Self::_translate_address(address) {
-            Err(message) => {return Err(message)},
-            Ok(value) => {value},
-
-        };
-
-        if real_address > self._size {
-            return Err("Memory address out of bounds");
+        if (address[0] != PREFIX_ADDRESS) {
+                printf("Memory addresses must begin with '@'");
+                exit(RETURN_CODE_ERROR);
         }
 
-        self._layout.insert(real_address, value);
-
-        return Ok(());
-    }
-
-    fn _translate_address(address: &str) -> Result<u32, &'static str> {
-
-        let s = String::from(address);
-        let len = s.len();
-        if len < 2 {
-            return Err("Memory addresses too short");
-        }
-        if &s[0..1] != "@" {
-            return Err("Memory addresses must begin with '@'");
+        int address_number;
+        if (1 != sscanf(address, "@[^0123456789]%d", &address_number)) {
+                printf("Invalid memory address: %s", address);
+                exit(RETURN_CODE_ERROR);
         }
 
-        return match number::int_from_string(&s[1..len]) {
-            Err(_) => Err("Number conversion error"),
-            Ok(value) => Ok(value as u32),
-        };
-    }
+        return (uint8_t) address_number;
 }
-*/
+
+
+int64_t memory_get_by_address(char *address)
+{
+        uint8_t real_address = memory_translate_address(address);
+
+        if (real_address > memory.size) {
+                printf("Attempted read above memory size: %d > %d", real_address, memory.size);
+                exit(RETURN_CODE_ERROR);
+        }
+
+        return memory.cells[real_address];
+}
+
+
+void memory_set_by_address(char *address, int64_t value)
+{
+        uint8_t real_address = memory_translate_address(address);
+
+        if (real_address > memory.size) {
+                printf("Attempted read above memory size: %d > %d", real_address, memory.size);
+                exit(RETURN_CODE_ERROR);
+        }
+
+        memory.cells[real_address] = value;
+}
